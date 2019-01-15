@@ -6,8 +6,8 @@ let count = 0;
 
 
 const createList = () => {
-    document.getElementById("main").innerHTML = products.map((product,index) => {      
-            return  `<div id=${index}>
+    document.getElementById("main").innerHTML = products.map((product, index) => {      
+            return  `<div id='${index}'>
                         <img src="${product.imgUrl}"/>
                         <div id='name'>${product.name}</div>
                         <div>${product.price}</div>
@@ -28,9 +28,10 @@ const displayHome = () => {
 const displayCart = () => {
     const displayStorage = JSON.parse(sessionStorage.getItem('cart'));
     document.getElementById('main').innerHTML = displayStorage.map(product => {
-            return `<div>${product}</div>`
+            return `<div id='cartList'>${product}</div>`
             }).join(' ');
-       
+    
+    displayCartButton();
 }
 
 const filterList = () => {
@@ -73,19 +74,22 @@ const displayCartButton = () => {
 }
 
 const displayItem = () => {
-    const newVar = document.getElementById('main').firstChild;
-    if (newVar.childNodes.length !== 1) {
+    const newMain = document.getElementById('main');
+      
+    if (newMain.childNodes.length !== 1 && !document.getElementById('cartList')) {
     // only shows item user clicked on
         const value = event.target
         const saveItem = value.parentNode;
-        const newMain = document.getElementById('main')
-            
+        
         while(newMain.firstChild) {
             newMain.removeChild(newMain.firstChild);
         }
+
         newMain.appendChild(saveItem);   
-        displayCartButton();
- } 
+    }
+
+    displayCartButton();
+ 
 }
 
 const addToCart = () => {
